@@ -4,11 +4,17 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
       - name: Create zip
         run: zip -r mods.zip mods/
@@ -16,6 +22,8 @@ jobs:
       - name: Create tag
         run: |
           TAG=v$(date +'%Y%m%d-%H%M')
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git tag $TAG
           git push origin $TAG
 
