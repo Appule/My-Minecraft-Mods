@@ -1,0 +1,21 @@
+name: Build Mods Zip
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create zip
+        run: zip -r mods.zip mods/
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: mods.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
