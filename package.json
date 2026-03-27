@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "icons": "node modding-tools/generate-icon-data.js"
+  }
+}
