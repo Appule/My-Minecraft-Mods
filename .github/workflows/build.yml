@@ -7,15 +7,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # リリースを作成するための権限設定（必要に応じて追加）
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v3
 
       - name: Create zip
         run: zip -r mods.zip mods/
 
+      - name: Create tag
+        run: |
+          TAG=v$(date +'%Y%m%d-%H%M')
+          git tag $TAG
+          git push origin $TAG
+          # 次のステップで使えるように環境変数にタグ名を保存
+          echo "NEW_TAG=$TAG" >> $GITHUB_ENV
+
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ env.NEW_TAG }}  # 保存したタグ名を明示的に指定
           files: mods.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
