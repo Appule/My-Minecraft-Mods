@@ -84,3 +84,7 @@ usercache.json
 usernamecache.json
 versions
 webcache2
+kubejs
+launcher_log4.txt
+local
+rhino.local.properties
